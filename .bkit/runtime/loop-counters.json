@@ -1,24 +1,80 @@
 {
   "fileEditCounts": {
     "C:\\Users\\user\\Desktop\\itsms\\package.json": {
-      "count": 1,
-      "ts": 1789435799028
+      "count": 3,
+      "ts": 1789441973316
     },
     "C:\\Users\\user\\Desktop\\itsms\\.claude\\launch.json": {
       "count": 1,
       "ts": 1789435805556
     },
     "C:\\Users\\user\\Desktop\\itsms\\PRD.md": {
-      "count": 3,
-      "ts": 1789436604725
+      "count": 8,
+      "ts": 1789437563196
     },
     "C:\\Users\\user\\Desktop\\itsms\\CLAUDE.md": {
-      "count": 1,
-      "ts": 1789436718430
+      "count": 2,
+      "ts": 1789436875627
     },
     "C:\\Users\\user\\Desktop\\itsms\\.gitignore": {
       "count": 1,
       "ts": 1789436728165
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\PLAN.md": {
+      "count": 2,
+      "ts": 1789437518236
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\DESIGN.md": {
+      "count": 2,
+      "ts": 1789437503340
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\db\\migrations\\001_krs_tables.sql": {
+      "count": 2,
+      "ts": 1789442032980
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\db\\pool.ts": {
+      "count": 1,
+      "ts": 1789438635624
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\types.ts": {
+      "count": 1,
+      "ts": 1789438666577
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\envFile.ts": {
+      "count": 1,
+      "ts": 1789438672032
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\client.ts": {
+      "count": 1,
+      "ts": 1789438680178
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\token.ts": {
+      "count": 1,
+      "ts": 1789438688202
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\syncRentalEquipment.ts": {
+      "count": 1,
+      "ts": 1789438712630
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\api\\cron\\sync-krs-rental\\route.ts": {
+      "count": 1,
+      "ts": 1789441944173
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\vercel.json": {
+      "count": 1,
+      "ts": 1789441946663
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\scripts\\sync-krs-rental.ts": {
+      "count": 1,
+      "ts": 1789441952004
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\scripts\\migrate.ts": {
+      "count": 1,
+      "ts": 1789441970353
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\scripts\\debug-krs.ts": {
+      "count": 6,
+      "ts": 1789442225949
     }
   }
 }
