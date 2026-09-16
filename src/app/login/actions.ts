@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { recordAccessLog } from "@/lib/db/accessLog";
+import { isMobileUserAgent, MOBILE_HOME } from "@/lib/device";
 
 // 로그인 화면에는 이메일 대신 짧은 ID(예: jinhong)만 입력받고, Supabase Auth가 실제로 요구하는
 // 이메일 형식은 서버에서 사내 도메인을 붙여 만든다. m365_users.account 값(XXXX@jeisys.com)과
@@ -11,12 +12,10 @@ import { recordAccessLog } from "@/lib/db/accessLog";
 const LOGIN_EMAIL_DOMAIN = "jeisys.com";
 
 // 휴대폰·태블릿에서 로그인하면 대시보드 대신 바로 자산 실사 화면으로 보낸다.
-// (현장에서 바코드를 찍으려고 들어오는 경우가 대부분이라 한 단계를 줄인다)
-const MOBILE_UA = /Android|iPhone|iPad|iPod|Windows Phone|IEMobile|Opera Mini|Mobile Safari|SamsungBrowser/i;
-
+// (모바일은 미들웨어에서도 같은 화면으로 유도하므로, 여기서는 첫 이동을 한 번에 끝내는 역할이다)
 async function landingPath() {
-  const userAgent = (await headers()).get("user-agent") ?? "";
-  return MOBILE_UA.test(userAgent) ? "/audit_oa" : "/";
+  const userAgent = (await headers()).get("user-agent");
+  return isMobileUserAgent(userAgent) ? MOBILE_HOME : "/";
 }
 
 export async function login(_prevState: { error?: string } | undefined, formData: FormData) {
