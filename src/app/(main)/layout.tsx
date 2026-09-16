@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "../login/actions";
@@ -8,6 +9,9 @@ import { NavigationProvider } from "@/components/NavigationProvider";
 import NavigationOverlay from "@/components/NavigationOverlay";
 import AccessLogger from "@/components/AccessLogger";
 import { LogoutIcon } from "@/components/icons";
+import ChatWidget from "@/components/ChatWidget";
+import { getChatbotAccess } from "@/lib/rag/access";
+import { isMobileUserAgent } from "@/lib/device";
 
 export default async function MainLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();
@@ -23,13 +27,18 @@ export default async function MainLayout({ children }: { children: ReactNode }) 
 
   const role = profile?.role ?? "general";
 
+  // AI 도우미는 HR팀과 ITSMS 담당자에게만, 그리고 PC 화면에서만 보인다.
+  const chatbot = await getChatbotAccess();
+  const isMobile = isMobileUserAgent((await headers()).get("user-agent"));
+  const showChatbot = chatbot.canChat && !isMobile;
+
   return (
     <NavigationProvider>
       <AccessLogger />
       {/* 화면 높이에 맞춰 껍데기를 고정하고, 내용은 main 안쪽에서만 스크롤되게 한다.
           (사이드바·상단바는 스크롤과 무관하게 항상 같은 자리에 머문다) */}
       <div className="flex h-screen overflow-hidden">
-        <Sidebar role={role} />
+        <Sidebar role={role} canManageRag={chatbot.canManage} />
 
         <div className="flex flex-1 flex-col">
           {/* 페이지 제목은 상단바 정가운데에 두고(absolute), 사용자 정보·로그아웃은 오른쪽에 고정한다. */}
@@ -63,6 +72,8 @@ export default async function MainLayout({ children }: { children: ReactNode }) 
             {children}
             <NavigationOverlay />
           </main>
+
+          {showChatbot && <ChatWidget />}
         </div>
       </div>
     </NavigationProvider>

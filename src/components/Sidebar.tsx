@@ -51,6 +51,9 @@ const PERSONAL_LINKS = NAV_ITEMS.filter((item) => item.href in PERSONAL_ICONS).m
 }));
 const ADMIN_LINKS = NAV_ITEMS.filter((item) => item.href.startsWith("/admin"));
 
+// AI 도우미 학습 메뉴는 챗봇 담당자에게만 보인다.
+const RAG_HREF = "/admin/rag";
+
 // 관리자 서브메뉴 글자색 — 강조(주황)와 준비중(어둡게)을 메뉴별로 지정한다.
 // 지정하지 않은 메뉴는 기본 색(흰색 75%)을 쓴다.
 const ADMIN_LINK_TONE: Record<string, { base: string; hover: string }> = {
@@ -82,7 +85,7 @@ function Collapsible({ open, maxHeightClass, children }: { open: boolean; maxHei
   );
 }
 
-export default function Sidebar({ role }: { role: string }) {
+export default function Sidebar({ role, canManageRag = false }: { role: string; canManageRag?: boolean }) {
   const pathname = usePathname();
   const { navigate } = useNavigation();
   const isAdminRoute = pathname.startsWith("/admin");
@@ -174,7 +177,7 @@ export default function Sidebar({ role }: { role: string }) {
             {sidebarOpen && (
               <Collapsible open={adminOpen} maxHeightClass="max-h-[320px]">
                 <div className="border-l border-white/15 pl-3">
-                  {ADMIN_LINKS.map((item) => {
+                  {ADMIN_LINKS.filter((item) => item.href !== RAG_HREF || canManageRag).map((item) => {
                     const tone = ADMIN_LINK_TONE[item.href];
                     const color = tone
                       ? `${tone.base} ${tone.hover}`

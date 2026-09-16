@@ -1,41 +1,5 @@
 {
   "fileEditCounts": {
-    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\dashboard.tsx": {
-      "count": 2,
-      "ts": 1789512347440
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\layout.tsx": {
-      "count": 2,
-      "ts": 1789512357410
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\NavigationOverlay.tsx": {
-      "count": 1,
-      "ts": 1789512361481
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\audit-monitoring\\page.tsx": {
-      "count": 10,
-      "ts": 1789513430095
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\globals.css": {
-      "count": 1,
-      "ts": 1789513083120
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\oa-status\\page.tsx": {
-      "count": 5,
-      "ts": 1789513467008
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\oa\\ActionTable.tsx": {
-      "count": 1,
-      "ts": 1789513355362
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\audit\\DeptRanking.tsx": {
-      "count": 2,
-      "ts": 1789515056310
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\audit\\PhotoCell.tsx": {
-      "count": 1,
-      "ts": 1789515303822
-    },
     "C:\\Users\\user\\Desktop\\itsms\\db\\migrations\\008_m365_license_total.sql": {
       "count": 1,
       "ts": 1789518418298
@@ -67,6 +31,42 @@
     "C:\\Users\\user\\Desktop\\itsms\\README.md": {
       "count": 1,
       "ts": 1789522021862
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\.vercelignore": {
+      "count": 1,
+      "ts": 1789522194689
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\rag\\ingest.ts": {
+      "count": 1,
+      "ts": 1789531286980
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\rag\\answer.ts": {
+      "count": 1,
+      "ts": 1789531306825
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\chat\\actions.ts": {
+      "count": 1,
+      "ts": 1789531314221
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\ChatWidget.tsx": {
+      "count": 1,
+      "ts": 1789531346239
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\rag\\actions.ts": {
+      "count": 1,
+      "ts": 1789531369014
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\rag\\RagManager.tsx": {
+      "count": 1,
+      "ts": 1789531390630
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\rag\\page.tsx": {
+      "count": 1,
+      "ts": 1789531403181
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\rag\\chunk.ts": {
+      "count": 1,
+      "ts": 1789531489800
     }
   }
 }
