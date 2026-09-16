@@ -10,6 +10,10 @@
 
 **배포 주소** · https://itsms.vercel.app (사내 계정 로그인 필요)
 
+| 관리 중인 자산 | 로그인 계정 | 학습 자료 | 화면 | 단위 테스트 |
+|:---:|:---:|:---:|:---:|:---:|
+| **1,010대** | **1,097개** | **265조각** | **9개** | **24개** |
+
 > AI 바이브 코딩 교육 과제로 진행했습니다. 기획(PRD) → 설계(DESIGN) → 계획(PLAN) → 구현 → 검증을 AI와 함께 반복해 **3일 만에** 실제 운영 데이터(자산 1,010대 · 계정 1,097개)가 도는 시스템까지 만들었습니다.
 
 ---
@@ -109,6 +113,30 @@ PDF·TXT·MD·CSV를 올리거나 사내 DB를 다시 읽어 학습시킵니다.
 
 ![AI 도우미 학습 자료 관리 화면](docs/images/rag-manage.png)
 
+### OA 자산 현황 실사 모니터링
+
+실사가 실제로 굴러가는지 보는 화면입니다. 전체 진행률과 오늘 실사 건수, 사용자명이 수정된 건수를 위에 두고, 아래에 최근 실사 내역과 부서별 진행률 순위를 나눠 담았습니다. 부서명에 마우스를 올리면 그 부서의 자산 목록이 뜨고 클릭하면 고정되며, 실사 사진이 있는 건은 표에서 바로 미리볼 수 있습니다.
+
+실사 한 건이 처리되는 과정입니다.
+
+```mermaid
+sequenceDiagram
+    participant U as 실사자 휴대폰
+    participant S as 서버
+    participant DB as Supabase
+
+    U->>U: 카메라로 바코드 인식
+    U->>S: 자산번호 조회
+    S->>DB: 자산·사용자 정보 확인
+    DB-->>U: 사용자 조직 · 이름 자동 입력
+    Note over U: 실제 사용자가 다르면 그 자리에서 수정
+    U->>S: 제출 - 사진 포함
+    S->>DB: 이전 실사 기록 만료 후 새 기록 추가
+    S->>DB: 사진을 비공개 버킷에 저장
+    DB-->>S: 완료
+    S-->>U: 감사합니다 · 내가 실사한 목록 표시
+```
+
 ### 사용자 접속 로그
 
 누가 언제 로그인했고 어떤 화면을 열었는지 기록합니다. 화면 이름은 사이드바 메뉴 정의를 그대로 쓰기 때문에 메뉴 이름을 바꿔도 로그가 어긋나지 않습니다.
@@ -121,23 +149,45 @@ PDF·TXT·MD·CSV를 올리거나 사내 DB를 다시 읽어 학습시킵니다.
 
 ### 아키텍처
 
-```
-휴대폰/PC 브라우저
-      │
-      ▼
-Next.js 16 (App Router)          ← Vercel 배포
-  ├─ middleware.ts               로그인 확인 · 모바일이면 실사 화면으로
-  ├─ 서버 컴포넌트/서버 액션      권한 확인 후 데이터 조회 (service_role)
-  └─ 클라이언트 컴포넌트          바코드 스캔, 표 검색, 챗봇 UI
-      │
-      ▼
-Supabase                          Postgres · Auth · Storage · pgvector
-      ▲                               ▲
-      │ REST(service_role)            │ 임베딩·답변
-      │                               │
-Python 수집 배치                   OpenAI API
-  ├─ export_OA      KRS 자산 API    text-embedding-3-small
-  └─ export_m365    M365 CSV        gpt-4o-mini
+```mermaid
+flowchart TB
+    subgraph 사용자
+        P["휴대폰 - 바코드 실사"]
+        D["PC - 대시보드"]
+    end
+
+    subgraph app["Next.js 16 · Vercel"]
+        MW["middleware<br/>로그인 확인 · 모바일은 실사 화면으로"]
+        SC["서버 컴포넌트 / 서버 액션<br/>권한 확인 후 조회"]
+        CC["클라이언트 컴포넌트<br/>바코드 스캔 · 표 검색 · 챗봇 UI"]
+    end
+
+    subgraph data["Supabase"]
+        DB[("Postgres<br/>SCD2 이력 · RLS")]
+        AUTH["Auth"]
+        ST["Storage<br/>실사 사진"]
+        VEC["pgvector<br/>문서 조각"]
+    end
+
+    subgraph batch["Python 수집 배치 · 웹앱과 분리"]
+        KRS["export_OA<br/>KRS 자산 API"]
+        M365["export_m365<br/>M365 CSV"]
+    end
+
+    AI["OpenAI<br/>embedding · gpt-4o-mini"]
+
+    P --> MW
+    D --> MW
+    MW --> SC
+    SC --> CC
+    SC --> DB
+    SC --> AUTH
+    SC --> ST
+    SC --> VEC
+    SC <--> AI
+    VEC -.근거 조각.-> AI
+    KRS --> DB
+    M365 --> DB
 ```
 
 ### 기술 선택과 이유
