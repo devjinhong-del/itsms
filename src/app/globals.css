@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "pretendard/dist/web/variable/pretendardvariable.css";
 
 :root {
   --background: #ffffff;
@@ -22,5 +23,88 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* 한국 기업 사이트에서 널리 쓰이는 모던한 한글 폰트 */
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+}
+
+/* 자산현황실사(/audit_oa) 스캔 중 표시하는 빨간 스캔 라인 — 은은한 빛이 강해졌다 약해졌다 한다 */
+@keyframes scan-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    box-shadow: 0 0 4px 1px rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 14px 5px rgba(239, 68, 68, 0.95);
+  }
+}
+
+.scan-line {
+  animation: scan-glow 1.3s ease-in-out infinite;
+}
+
+/* 자산현황실사(/audit_oa) "이름을 눌러 수정해주세요" 안내 문구 — 사용자가 놓치지 않도록 천천히 깜빡인다 */
+@keyframes slow-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.slow-blink {
+  animation: slow-blink 2.4s ease-in-out infinite;
+}
+
+/* 사이드바 메뉴 이동 시 페이지 로딩 화면 — 회색 로고에 #1d428a 색이 아래에서 위로 찼다 빠지길
+   반복하는 "물 차는" 효과. 바깥(회색)·안쪽(파란색) 두 레이어를 똑같은 로고 모양으로 마스킹해
+   겹쳐두고, 안쪽 레이어를 담고 있는 컨테이너의 높이를 0%~100%로 반복시켜 아래에서부터
+   드러나 보이게 한다. */
+@keyframes logo-fill {
+  0%,
+  100% {
+    height: 0%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+.animate-logo-fill {
+  animation: logo-fill 2.2s ease-in-out infinite;
+}
+
+/* 실사 진행률 순위 1~3위 동그라미 — 은은하게 빛났다 잦아들기를 반복한다 */
+@keyframes rank-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 66, 138, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 10px 3px rgba(29, 66, 138, 0.55);
+  }
+}
+
+.rank-glow {
+  animation: rank-glow 2s ease-in-out infinite;
+}
+
+/* License 별 사용률 — 잔여 없이 꽉 찬(사용률 100%) 라이선스 행은 은은하게 반짝인다 */
+@keyframes usage-full-glow {
+  0%,
+  100% {
+    background-color: rgba(29, 66, 138, 0.05);
+    box-shadow: 0 0 0 0 rgba(29, 66, 138, 0.12);
+  }
+  50% {
+    background-color: rgba(29, 66, 138, 0.13);
+    box-shadow: 0 0 12px 2px rgba(29, 66, 138, 0.22);
+  }
+}
+
+.usage-full-glow {
+  animation: usage-full-glow 2.6s ease-in-out infinite;
 }

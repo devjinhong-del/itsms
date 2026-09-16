@@ -43,3 +43,16 @@ next-env.d.ts
 # 삭제 대기 파일 (바로 지우지 않고 여기로 옮겨둠)
 /trash-can/*
 !/trash-can/.gitkeep
+
+# python (export_OA 수집기)
+.venv/
+__pycache__/
+*.pyc
+
+certificates
+
+# 사내 인사·자산 데이터 내보내기 파일(대외비) — 저장소에 올리지 않는다
+export_m365/*.csv
+export_OA/*.csv
+*.xlsx
+

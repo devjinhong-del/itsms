@@ -1,80 +1,72 @@
 {
   "fileEditCounts": {
-    "C:\\Users\\user\\Desktop\\itsms\\package.json": {
-      "count": 3,
-      "ts": 1789441973316
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\.claude\\launch.json": {
-      "count": 1,
-      "ts": 1789435805556
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\PRD.md": {
-      "count": 8,
-      "ts": 1789437563196
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\CLAUDE.md": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\dashboard.tsx": {
       "count": 2,
-      "ts": 1789436875627
+      "ts": 1789512347440
     },
-    "C:\\Users\\user\\Desktop\\itsms\\.gitignore": {
-      "count": 1,
-      "ts": 1789436728165
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\PLAN.md": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\layout.tsx": {
       "count": 2,
-      "ts": 1789437518236
+      "ts": 1789512357410
     },
-    "C:\\Users\\user\\Desktop\\itsms\\DESIGN.md": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\NavigationOverlay.tsx": {
+      "count": 1,
+      "ts": 1789512361481
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\audit-monitoring\\page.tsx": {
+      "count": 10,
+      "ts": 1789513430095
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\globals.css": {
+      "count": 1,
+      "ts": 1789513083120
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\oa-status\\page.tsx": {
+      "count": 5,
+      "ts": 1789513467008
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\oa\\ActionTable.tsx": {
+      "count": 1,
+      "ts": 1789513355362
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\audit\\DeptRanking.tsx": {
       "count": 2,
-      "ts": 1789437503340
+      "ts": 1789515056310
     },
-    "C:\\Users\\user\\Desktop\\itsms\\db\\migrations\\001_krs_tables.sql": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\audit\\PhotoCell.tsx": {
+      "count": 1,
+      "ts": 1789515303822
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\db\\migrations\\008_m365_license_total.sql": {
+      "count": 1,
+      "ts": 1789518418298
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\export_m365\\sync_m365_license.py": {
+      "count": 1,
+      "ts": 1789518464654
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\license\\OrgLicenseTable.tsx": {
       "count": 2,
-      "ts": 1789442032980
+      "ts": 1789520340129
     },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\db\\pool.ts": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\license\\HeavyUserTable.tsx": {
       "count": 1,
-      "ts": 1789438635624
+      "ts": 1789519584973
     },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\types.ts": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\license\\page.tsx": {
       "count": 1,
-      "ts": 1789438666577
+      "ts": 1789519615279
     },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\envFile.ts": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\oa\\AssetTable.tsx": {
       "count": 1,
-      "ts": 1789438672032
+      "ts": 1789520701967
     },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\client.ts": {
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\oa-overview\\page.tsx": {
       "count": 1,
-      "ts": 1789438680178
+      "ts": 1789520725507
     },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\token.ts": {
+    "C:\\Users\\user\\Desktop\\itsms\\README.md": {
       "count": 1,
-      "ts": 1789438688202
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\krs\\syncRentalEquipment.ts": {
-      "count": 1,
-      "ts": 1789438712630
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\api\\cron\\sync-krs-rental\\route.ts": {
-      "count": 1,
-      "ts": 1789441944173
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\vercel.json": {
-      "count": 1,
-      "ts": 1789441946663
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\scripts\\sync-krs-rental.ts": {
-      "count": 1,
-      "ts": 1789441952004
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\scripts\\migrate.ts": {
-      "count": 1,
-      "ts": 1789441970353
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\scripts\\debug-krs.ts": {
-      "count": 6,
-      "ts": 1789442225949
+      "ts": 1789522021862
     }
   }
 }
