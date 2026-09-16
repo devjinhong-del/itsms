@@ -1,0 +1,20 @@
+# Vercel에 업로드하지 않을 것들 — 웹앱 실행과 무관하거나 올리면 안 되는 파일
+# (경로를 루트 기준으로 고정한다. 예: "db"라고만 쓰면 src/lib/db까지 함께 제외돼 빌드가 깨진다)
+/.env
+/.env.*
+/certificates
+/.bkit
+/.claude
+/trash-can
+
+# Python 수집 배치(별도 실행, 웹앱과 분리)
+/export_OA
+/export_m365
+
+# 운영 스크립트·문서(배포 산출물에 필요 없음)
+/db
+/PRD.md
+/PLAN.md
+/DESIGN.md
+/CLAUDE.md
+/AGENTS.md

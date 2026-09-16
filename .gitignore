@@ -56,3 +56,6 @@ export_m365/*.csv
 export_OA/*.csv
 *.xlsx
 
+
+.vercel
+.env*
