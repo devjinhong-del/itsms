@@ -52,3 +52,25 @@ export function ChartLineUpIcon({ className = "h-[18px] w-[18px] shrink-0" }: { 
     </svg>
   );
 }
+
+// 로그아웃 — 열린 문에서 화살표가 밖으로 나가는, 가장 널리 쓰이는 형태의 픽토그램.
+export function LogoutIcon({ className = "h-4 w-4 shrink-0" }: { className?: string } = {}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      {/* 문(왼쪽 벽면이 열려 있는 모양) */}
+      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+      {/* 밖으로 나가는 화살표 */}
+      <path d="M16 17l5-5-5-5" />
+      <path d="M21 12H9" />
+    </svg>
+  );
+}

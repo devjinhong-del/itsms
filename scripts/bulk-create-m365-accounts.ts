@@ -11,6 +11,7 @@ const PASSWORD = "abc123";
 const ROLE = "admin";
 const CONCURRENCY = 5;
 const ACCOUNT_PATTERN = /^[^@\s]+@jeisys\.com$/i;
+const PAGE_SIZE = 1000; // PostgREST 한 번 조회 상한
 
 interface Target {
   account: string;
@@ -20,16 +21,29 @@ interface Target {
 async function main() {
   const supabase = getSupabaseAdmin();
 
-  const { data: rows, error } = await supabase.from("m365_users").select("account, name").eq("expired_at", NO_EXPIRY);
+  // PostgREST는 한 번에 최대 1000행만 돌려주므로, 반드시 페이징해서 전부 읽어야 한다.
+  // (이 처리가 없던 첫 실행에서는 앞 1000행 안에 없던 계정들이 통째로 누락됐다.)
+  const rows: { account: string | null; name: string | null }[] = [];
+  for (let offset = 0; ; offset += PAGE_SIZE) {
+    const { data, error } = await supabase
+      .from("m365_users")
+      .select("account, name")
+      .eq("expired_at", NO_EXPIRY)
+      .order("id", { ascending: true })
+      .range(offset, offset + PAGE_SIZE - 1);
 
-  if (error) {
-    throw new Error(`m365_users 조회 실패: ${error.message}`);
+    if (error) {
+      throw new Error(`m365_users 조회 실패: ${error.message}`);
+    }
+
+    rows.push(...(data ?? []));
+    if ((data?.length ?? 0) < PAGE_SIZE) break;
   }
 
   const seen = new Set<string>();
   const targets: Target[] = [];
 
-  for (const row of rows ?? []) {
+  for (const row of rows) {
     const account = (row.account ?? "").trim();
     if (!ACCOUNT_PATTERN.test(account)) continue;
 
@@ -40,7 +54,7 @@ async function main() {
     targets.push({ account, name: row.name });
   }
 
-  console.log(`전체 ${rows?.length ?? 0}건 중 대상(jeisys.com, 중복 제거) ${targets.length}건`);
+  console.log(`전체 ${rows.length}건 중 대상(jeisys.com, 중복 제거) ${targets.length}건`);
 
   let created = 0;
   let skipped = 0;

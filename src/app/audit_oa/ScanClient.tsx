@@ -105,6 +105,38 @@ export default function ScanClient() {
     }
   }
 
+  // 아이폰(사파리)은 권한을 한 번 거부하면 다음부터는 창을 띄우지 않고 바로 NotAllowedError를
+  // 던진다. 안내 문구도 기기마다 다른 위치를 알려줘야 해서 iOS 여부를 따로 본다.
+  function isIOS() {
+    const ua = navigator.userAgent;
+    // 아이패드(iPadOS 13+)는 UA를 Mac으로 보고하므로 터치 지원 여부로 함께 판별한다.
+    return /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  }
+
+  // 카메라 스트림은 버튼을 누른 그 순간(사용자 제스처) 안에서 직접 요청해야 한다.
+  // zxing의 decodeFromConstraints에 맡기지 않고 여기서 getUserMedia를 먼저 호출하는 이유:
+  //  - 요청한 해상도를 기기가 못 맞추면 낮은 조건으로 한 번 더 시도할 수 있고,
+  //  - 실패 원인(권한 거부 / 해상도 / 사용 중)을 구분해 정확한 안내를 띄울 수 있다.
+  async function requestStream() {
+    try {
+      return await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: { ideal: "environment" },
+          // 해상도를 높게 요청할수록 바코드의 얇은 줄무늬가 더 선명하게 잡혀 인식률이 좋아진다.
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+        },
+      });
+    } catch (err) {
+      const name = (err as Error).name;
+      // 기기가 요청 해상도를 못 맞추는 경우엔 조건을 최소로 낮춰 한 번 더 시도한다.
+      if (name === "OverconstrainedError" || name === "ConstraintNotSatisfiedError" || name === "NotFoundError") {
+        return await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+      }
+      throw err;
+    }
+  }
+
   function openCamera() {
     lookingUpRef.current = false;
 
@@ -119,18 +151,9 @@ export default function ScanClient() {
 
     const reader = new BrowserMultiFormatReader(SCAN_HINTS);
 
-    reader
-      .decodeFromConstraints(
-        {
-          video: {
-            facingMode: { ideal: "environment" },
-            // 해상도를 높게 요청할수록 바코드의 얇은 줄무늬가 더 선명하게 잡혀 인식률이 좋아진다.
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
-          },
-        },
-        videoRef.current!,
-        (result) => {
+    requestStream()
+      .then((stream) =>
+        reader.decodeFromStream(stream, videoRef.current!, (result) => {
           if (!result || lookingUpRef.current) return;
           const text = result.getText();
           lookingUpRef.current = true;
@@ -154,7 +177,7 @@ export default function ScanClient() {
             .catch(() => {
               lookingUpRef.current = false;
             });
-        },
+        }),
       )
       .then((controls) => {
         controlsRef.current = controls;
@@ -167,14 +190,16 @@ export default function ScanClient() {
       })
       .catch((err: Error) => {
         setStatus("camera-error");
-        if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+        if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError" || err.name === "SecurityError") {
           setCameraError(
-            "카메라 접근 권한이 차단되어 있습니다. 브라우저 주소창의 자물쇠(또는 사이트 정보) 아이콘에서 카메라 권한을 허용으로 바꾼 뒤 새로고침해주세요.",
+            isIOS()
+              ? "카메라 권한이 꺼져 있습니다. 주소창 왼쪽 버튼(aA 또는 ··· )을 눌러 [웹사이트 설정] → 카메라 → 허용으로 바꾸고 새로고침해주세요. 그래도 안 되면 아이폰 [설정] → Safari → 카메라 → 허용을 확인해주세요."
+              : "카메라 접근 권한이 차단되어 있습니다. 브라우저 주소창의 자물쇠(또는 사이트 정보) 아이콘에서 카메라 권한을 허용으로 바꾼 뒤 새로고침해주세요.",
           );
         } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
           setCameraError("사용 가능한 카메라를 찾을 수 없습니다.");
         } else if (err.name === "NotReadableError" || err.name === "TrackStartError") {
-          setCameraError("다른 앱이 카메라를 사용 중일 수 있습니다. 카메라를 쓰는 다른 앱을 종료한 뒤 새로고침해주세요.");
+          setCameraError("다른 앱이 카메라를 사용 중일 수 있습니다. 카메라를 쓰는 다른 앱(카메라·화상회의 등)을 종료한 뒤 새로고침해주세요.");
         } else {
           setCameraError(err.message || "카메라를 열 수 없습니다.");
         }
@@ -410,6 +435,13 @@ export default function ScanClient() {
                     className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-900"
                   >
                     다시 시도
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => window.location.reload()}
+                    className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white"
+                  >
+                    새로고침
                   </button>
                 </div>
               )}

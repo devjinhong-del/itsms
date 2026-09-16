@@ -7,6 +7,7 @@ import PageTitle from "@/components/PageTitle";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import NavigationOverlay from "@/components/NavigationOverlay";
 import AccessLogger from "@/components/AccessLogger";
+import { LogoutIcon } from "@/components/icons";
 
 export default async function MainLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();
@@ -47,8 +48,9 @@ export default async function MainLayout({ children }: { children: ReactNode }) 
               <form action={logout}>
                 <button
                   type="submit"
-                  className="rounded border border-gray-200 px-3 py-1.5 text-[13px] font-medium text-gray-600 transition hover:bg-gray-50"
+                  className="flex items-center gap-1.5 rounded border border-gray-200 px-3 py-1.5 text-[13px] font-medium text-gray-600 transition hover:bg-gray-50 hover:text-gray-900"
                 >
+                  <LogoutIcon />
                   로그아웃
                 </button>
               </form>
