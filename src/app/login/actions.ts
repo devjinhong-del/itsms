@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { recordAccessLog } from "@/lib/db/accessLog";
 import { isMobileUserAgent, MOBILE_HOME } from "@/lib/device";
 
-// 로그인 화면에는 이메일 대신 짧은 ID(예: jinhong)만 입력받고, Supabase Auth가 실제로 요구하는
+// 로그인 화면에는 이메일 대신 짧은 ID(예: hong)만 입력받고, Supabase Auth가 실제로 요구하는
 // 이메일 형식은 서버에서 사내 도메인을 붙여 만든다. m365_users.account 값(XXXX@jeisys.com)과
 // 형식을 맞춰야 계정 생성 스크립트로 만든 계정과 그대로 일치한다.
 const LOGIN_EMAIL_DOMAIN = "jeisys.com";
