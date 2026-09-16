@@ -1,24 +1,8 @@
 {
   "fileEditCounts": {
-    "C:\\Users\\user\\Desktop\\itsms\\db\\migrations\\008_m365_license_total.sql": {
-      "count": 1,
-      "ts": 1789518418298
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\export_m365\\sync_m365_license.py": {
-      "count": 1,
-      "ts": 1789518464654
-    },
     "C:\\Users\\user\\Desktop\\itsms\\src\\components\\license\\OrgLicenseTable.tsx": {
       "count": 2,
       "ts": 1789520340129
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\components\\license\\HeavyUserTable.tsx": {
-      "count": 1,
-      "ts": 1789519584973
-    },
-    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\license\\page.tsx": {
-      "count": 1,
-      "ts": 1789519615279
     },
     "C:\\Users\\user\\Desktop\\itsms\\src\\components\\oa\\AssetTable.tsx": {
       "count": 1,
@@ -67,6 +51,14 @@
     "C:\\Users\\user\\Desktop\\itsms\\src\\lib\\rag\\chunk.ts": {
       "count": 1,
       "ts": 1789531489800
+    },
+    "C:\\Users\\user\\AppData\\Local\\Temp\\claude\\C--Users-user-Desktop-itsms\\71089ece-0d80-43eb-b648-b1c124a45890\\scratchpad\\ppt\\build.js": {
+      "count": 1,
+      "ts": 1789533742493
+    },
+    "C:\\Users\\user\\Desktop\\itsms\\src\\app\\(main)\\admin\\audit-qr\\page.tsx": {
+      "count": 1,
+      "ts": 1789534681076
     }
   }
 }

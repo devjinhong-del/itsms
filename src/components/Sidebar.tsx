@@ -60,6 +60,7 @@ const ADMIN_LINK_TONE: Record<string, { base: string; hover: string }> = {
   // 지금 가장 많이 보는 화면이라 눈에 띄게
   "/admin/oa-status": { base: "text-amber-400", hover: "hover:text-amber-300" },
   "/admin/audit-monitoring": { base: "text-amber-400", hover: "hover:text-amber-300" },
+  "/admin/audit-qr": { base: "text-amber-400", hover: "hover:text-amber-300" },
   // 아직 서비스 전이라 상대적으로 덜 보이게
   "/admin/audit-open-close": { base: "text-white/40", hover: "hover:text-white/70" },
   "/admin/assignee": { base: "text-white/40", hover: "hover:text-white/70" },

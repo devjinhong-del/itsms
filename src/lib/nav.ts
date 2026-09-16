@@ -9,6 +9,7 @@ export const NAV_ITEMS = [
   { href: "/admin/license", label: "License 관리" },
   { href: "/admin/audit-open-close", label: "OA 자산 실사 Open/Close" },
   { href: "/admin/audit-monitoring", label: "OA 자산 현황 실사 모니터링" },
+  { href: "/admin/audit-qr", label: "OA 자산 현황 실사" },
   { href: "/admin/assignee", label: "담당자 선임" },
   { href: "/admin/access-log", label: "사용자 접속 로그" },
   { href: "/admin/rag", label: "AI 도우미 학습" },
