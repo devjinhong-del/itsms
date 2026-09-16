@@ -11,7 +11,8 @@ import { getSupabaseAdmin } from "../src/lib/db/supabaseAdmin";
 const NO_EXPIRY = "9999-12-31T23:59:59+00:00";
 const PAGE_SIZE = 1000; // PostgREST 한 번 조회 상한
 const ADMIN_TEAM = "IT팀";
-const EXTRA_ADMINS = ["innocurve@jeisys.com"];
+// IT팀이 아니지만 관리자 권한을 유지할 계정(조신근 COO 兼 경영지원본부 등)
+const EXTRA_ADMINS = ["innocurve@jeisys.com", "simon.jo@jeisys.com"];
 
 interface M365Row {
   account: string | null;
