@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSupabaseAdmin } from "@/lib/db/supabaseAdmin";
 import { SectionCard, StatTile, Table, EmptyRow, Badge } from "@/components/dashboard";
+import { formatKstDate } from "@/lib/date";
 
 const NO_EXPIRY = "9999-12-31T23:59:59+00:00";
 
@@ -137,7 +138,7 @@ export default async function PersonalAssetsPage() {
                 <td className="px-3 py-2.5 text-gray-500">{item.dlivy_date ?? "-"}</td>
                 <td className="px-3 py-2.5">
                   {audit ? (
-                    <Badge tone="ok">완료 · {new Date(audit.created_at).toLocaleDateString("ko-KR")}</Badge>
+                    <Badge tone="ok">완료 · {formatKstDate(audit.created_at)}</Badge>
                   ) : (
                     <Badge tone="warn">미실사</Badge>
                   )}

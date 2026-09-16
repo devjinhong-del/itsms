@@ -4,6 +4,7 @@ import { fetchAllRows } from "@/lib/db/fetchAll";
 import { SectionCard, StatTile, Table, EmptyRow, Badge } from "@/components/dashboard";
 import DeptRanking, { type DeptRankRow } from "@/components/audit/DeptRanking";
 import PhotoCell from "@/components/audit/PhotoCell";
+import { formatKstDateTime, kstDayKey } from "@/lib/date";
 
 const NO_EXPIRY = "9999-12-31T23:59:59+00:00";
 
@@ -31,15 +32,6 @@ interface Audit {
   is_edited: boolean;
   created_at: string;
   photo_url: string | null;
-}
-
-function formatDateTime(value: string) {
-  return new Date(value).toLocaleString("ko-KR", {
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
 }
 
 export default async function AdminAuditMonitoringPage() {
@@ -106,8 +98,8 @@ export default async function AdminAuditMonitoringPage() {
   const editedCount = audits.filter((a) => a.is_edited).length;
 
   // 오늘 실사 건수 — 실사가 실제로 돌아가고 있는지 바로 보이도록
-  const todayKey = new Date().toDateString();
-  const todayCount = audits.filter((a) => new Date(a.created_at).toDateString() === todayKey).length;
+  const todayKey = kstDayKey();
+  const todayCount = audits.filter((a) => kstDayKey(a.created_at) === todayKey).length;
 
   const inspectors = new Map<string, number>();
   for (const audit of audits) {
@@ -147,7 +139,7 @@ export default async function AdminAuditMonitoringPage() {
         <Table head={["실사 시각", "자산번호", "사진", "사용자 조직", "사용자", "실사자", "수정 여부"]}>
           {recentAudits.map((audit) => (
             <tr key={`${audit.asset_no}-${audit.created_at}`} className="border-t border-gray-100">
-              <td className="px-3 py-2.5 font-medium tabular-nums">{formatDateTime(audit.created_at)}</td>
+              <td className="px-3 py-2.5 font-medium tabular-nums">{formatKstDateTime(audit.created_at)}</td>
               <td className="px-3 py-2.5">{audit.asset_no}</td>
               <td className="px-3 py-2.5">
                 <PhotoCell url={(audit.photo_url && photoUrls.get(audit.photo_url)) || null} assetNo={audit.asset_no} />

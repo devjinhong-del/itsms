@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/auth/requireAdmin";
 import { getSupabaseAdmin } from "@/lib/db/supabaseAdmin";
 import { NAV_ITEMS } from "@/lib/nav";
 import { SectionCard, StatTile, Table, EmptyRow, BarList, Badge } from "@/components/dashboard";
+import { formatKstDateTime, kstDayKey } from "@/lib/date";
 
 // 접속 로그는 계속 쌓이므로 캐시하지 않고 매번 최신 상태로 읽는다.
 export const dynamic = "force-dynamic";
@@ -25,16 +26,6 @@ function labelOf(path: string | null) {
   return PATH_LABEL.get(path) ?? path;
 }
 
-function formatDateTime(value: string) {
-  return new Date(value).toLocaleString("ko-KR", {
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-}
-
 export default async function AdminAccessLogPage() {
   await requireAdmin();
 
@@ -49,8 +40,8 @@ export default async function AdminAccessLogPage() {
   const logins = logs.filter((l) => l.event_type === "login");
   const pageViews = logs.filter((l) => l.event_type === "page_view");
 
-  const todayKey = new Date().toDateString();
-  const todayLogs = logs.filter((l) => new Date(l.created_at).toDateString() === todayKey);
+  const todayKey = kstDayKey();
+  const todayLogs = logs.filter((l) => kstDayKey(l.created_at) === todayKey);
   const uniqueUsers = new Set(logs.map((l) => l.user_email).filter(Boolean));
 
   // 어떤 화면이 많이 쓰이는지 — 메뉴 개선 판단에 쓸 수 있는 기본 지표
@@ -92,7 +83,7 @@ export default async function AdminAccessLogPage() {
         <Table head={["시각", "계정", "이름", "구분", "화면", "경로"]}>
           {logs.slice(0, 100).map((log) => (
             <tr key={log.id} className="border-t border-gray-100">
-              <td className="px-3 py-2.5 font-medium tabular-nums">{formatDateTime(log.created_at)}</td>
+              <td className="px-3 py-2.5 font-medium tabular-nums">{formatKstDateTime(log.created_at)}</td>
               <td className="px-3 py-2.5 text-gray-600">{log.user_email ?? "-"}</td>
               <td className="px-3 py-2.5">{log.user_name ?? "-"}</td>
               <td className="px-3 py-2.5">
@@ -125,7 +116,7 @@ export default async function AdminAccessLogPage() {
                 <td className="px-3 py-2.5">{user.name ?? "-"}</td>
                 <td className="px-3 py-2.5 tabular-nums">{user.logins}</td>
                 <td className="px-3 py-2.5 tabular-nums">{user.views}</td>
-                <td className="px-3 py-2.5 tabular-nums text-gray-500">{formatDateTime(user.last)}</td>
+                <td className="px-3 py-2.5 tabular-nums text-gray-500">{formatKstDateTime(user.last)}</td>
               </tr>
             ))}
             {users.length === 0 && <EmptyRow colSpan={5} text="기록이 없습니다." />}

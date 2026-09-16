@@ -7,6 +7,7 @@ import {
   uploadRagDocument,
   type RagActionResult,
 } from "@/app/(main)/admin/rag/actions";
+import { formatKstDateTimeWithYear } from "@/lib/date";
 
 export interface RagDocumentRow {
   id: number;
@@ -114,13 +115,7 @@ export default function RagManager({ rows }: { rows: RagDocumentRow[] }) {
                 <td className="px-3 py-2.5 tabular-nums text-gray-600">{formatSize(row.fileSize)}</td>
                 <td className="px-3 py-2.5 text-gray-600">{row.uploadedBy ?? "-"}</td>
                 <td className="whitespace-nowrap px-3 py-2.5 tabular-nums text-gray-600">
-                  {new Date(row.createdAt).toLocaleString("ko-KR", {
-                    year: "2-digit",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {formatKstDateTimeWithYear(row.createdAt)}
                 </td>
                 <td className="px-3 py-2.5 text-right">
                   <button

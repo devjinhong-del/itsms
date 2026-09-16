@@ -2,6 +2,7 @@ import { getSupabaseAdmin } from "@/lib/db/supabaseAdmin";
 import { fetchAllRows } from "@/lib/db/fetchAll";
 import { splitIntoChunks } from "./chunk";
 import { embedTexts } from "./openai";
+import { formatKstDateTime } from "@/lib/date";
 
 const NO_EXPIRY = "9999-12-31T23:59:59+00:00";
 const EMBED_BATCH = 64; // 한 번에 임베딩할 조각 수
@@ -262,7 +263,7 @@ export async function ingestDatabase(uploadedBy: string | null) {
   // 4) 실사 내역
   const auditLines = audits.map(
     (row) =>
-      `실사일시 ${new Date(row.created_at).toLocaleString("ko-KR")} · 자산번호 ${row.asset_no} · 사용자 조직 ${
+      `실사일시 ${formatKstDateTime(row.created_at)} · 자산번호 ${row.asset_no} · 사용자 조직 ${
         row.asset_user_org ?? "-"
       } · 사용자 ${row.asset_user_name ?? "-"} · 실사자 ${row.inspector_name ?? "-"} · 사용자명 수정 ${
         row.is_edited ? "있음" : "없음"
