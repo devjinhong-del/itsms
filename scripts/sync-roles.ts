@@ -13,6 +13,13 @@ const PAGE_SIZE = 1000; // PostgREST 한 번 조회 상한
 const ADMIN_TEAM = "IT팀";
 // IT팀이 아니지만 관리자 권한을 유지할 계정(조신근 COO 兼 경영지원본부 등)
 const EXTRA_ADMINS = ["innocurve@jeisys.com", "simon.jo@jeisys.com"];
+// IT팀 소속이지만 관리자에서 제외할 계정(일반 사용자로 둔다) — 여기 적힌 계정은 스크립트가 건드리지 않는다
+const EXCLUDED_ADMINS = [
+  "bae.hyejin@jeisys.com",
+  "hwlee@jeisys.com",
+  "tlsrb1@jeisys.com",
+  "kyu233@jeisys.com",
+];
 
 interface M365Row {
   account: string | null;
@@ -63,6 +70,7 @@ async function main() {
   }
 
   const keepAdmin = new Set([...itTeam, ...EXTRA_ADMINS.map((e) => e.toLowerCase())]);
+  for (const email of EXCLUDED_ADMINS) keepAdmin.delete(email.toLowerCase());
 
   // 2) 로그인 계정(profiles) 전부 읽기
   const profiles = await fetchAll<Profile>((from, to) =>
