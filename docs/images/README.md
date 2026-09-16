@@ -6,6 +6,7 @@ README에서 참조하는 이미지입니다.
 |---|---|
 | `sidebar.png` | 역할별 사이드바 메뉴 |
 | `audit-mobile.jpg` | 휴대폰 바코드 실사 |
+| `oa-overview.png` | 모든 OA 현황 (종류·부서·브랜드 분포) |
 | `license.png` | License 관리 |
 | `rag-manage.png` | AI 도우미 학습 자료 관리 |
 | `access-log.png` | 사용자 접속 로그 |
