@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { matchNumber } from "@/lib/search";
 
 export interface OrgMember {
   name: string;
@@ -29,27 +30,6 @@ const SEARCH_FIELDS = [
 ] as const;
 
 type SearchField = (typeof SEARCH_FIELDS)[number]["value"];
-
-// 숫자 칼럼 검색 — "12"(같은 값), ">=5", "<3", ">10"처럼 비교식도 받는다.
-function matchNumber(value: number, raw: string) {
-  const text = raw.replace(/\s|%|명|개|건/g, "");
-  const match = /^(>=|<=|>|<|=)?(-?\d+(?:\.\d+)?)$/.exec(text);
-  if (!match) return false;
-
-  const target = Number(match[2]);
-  switch (match[1]) {
-    case ">=":
-      return value >= target;
-    case "<=":
-      return value <= target;
-    case ">":
-      return value > target;
-    case "<":
-      return value < target;
-    default:
-      return value === target;
-  }
-}
 
 const MEMBER_LIMIT = 60; // 팝업에 보여줄 최대 인원
 

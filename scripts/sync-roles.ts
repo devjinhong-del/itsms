@@ -10,16 +10,18 @@ import { getSupabaseAdmin } from "../src/lib/db/supabaseAdmin";
 
 const NO_EXPIRY = "9999-12-31T23:59:59+00:00";
 const PAGE_SIZE = 1000; // PostgREST 한 번 조회 상한
-const ADMIN_TEAM = "IT팀";
-// IT팀이 아니지만 관리자 권한을 유지할 계정(조신근 COO 兼 경영지원본부 등)
-const EXTRA_ADMINS = ["innocurve@jeisys.com", "simon.jo@jeisys.com"];
-// IT팀 소속이지만 관리자에서 제외할 계정(일반 사용자로 둔다) — 여기 적힌 계정은 스크립트가 건드리지 않는다
-const EXCLUDED_ADMINS = [
-  "bae.hyejin@jeisys.com",
-  "hwlee@jeisys.com",
-  "tlsrb1@jeisys.com",
-  "kyu233@jeisys.com",
-];
+// 관리자로 둘 팀과 계정은 개인정보라 코드에 적지 않고 .env에서 받는다(.env.example 참고).
+const ADMIN_TEAM = process.env.ROLE_ADMIN_TEAM ?? "IT팀";
+const EXTRA_ADMINS = splitEmails(process.env.ROLE_ADMIN_EXTRA);
+// 위 팀 소속이지만 관리자에서 제외할 계정(일반 사용자로 둔다)
+const EXCLUDED_ADMINS = splitEmails(process.env.ROLE_ADMIN_EXCLUDE);
+
+function splitEmails(value: string | undefined) {
+  return (value ?? "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+}
 
 interface M365Row {
   account: string | null;
@@ -36,7 +38,10 @@ interface Profile {
   role: string;
 }
 
-async function fetchAll<T>(load: (from: number, to: number) => Promise<{ data: T[] | null; error: { message: string } | null }>) {
+// supabase-js의 질의 객체는 Promise가 아니라 thenable이라 PromiseLike로 받는다.
+async function fetchAll<T>(
+  load: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>,
+) {
   const rows: T[] = [];
   for (let offset = 0; ; offset += PAGE_SIZE) {
     const { data, error } = await load(offset, offset + PAGE_SIZE - 1);

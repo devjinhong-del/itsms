@@ -68,10 +68,11 @@ const ADMIN_LINK_TONE: Record<string, { base: string; hover: string }> = {
 };
 
 // ITSMS 담당자 연락처 — 팀즈 딥링크 형식(공식 지원 포맷)으로 전화/채팅 바로가기를 만든다.
+// 실명·이메일·전화번호는 개인정보라 코드에 적지 않고 환경변수로 받는다(.env.example 참고).
 const CONTACT = {
-  nameWithTitle: "IT팀 김진홍 차장",
-  email: "jinhong@jeisys.com",
-  phone: "010-7399-XXXX",
+  nameWithTitle: process.env.NEXT_PUBLIC_SUPPORT_NAME ?? "IT 담당자",
+  email: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "",
+  phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE ?? "",
 };
 const TEAMS_CHAT_MESSAGE = "ITSMS관련 문의 드립니다.";
 const TEAMS_CALL_HREF = `https://teams.microsoft.com/l/call/0/0?users=${CONTACT.email}`;

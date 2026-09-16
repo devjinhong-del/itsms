@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { matchNumber } from "@/lib/search";
 
 export interface AssetRow {
   assetNo: string;
@@ -28,27 +29,6 @@ const SEARCH_FIELDS = [
 type SearchField = (typeof SEARCH_FIELDS)[number]["value"];
 
 const ROW_LIMIT = 300;
-
-// 숫자 칼럼 검색 — "50000"(같은 값), ">=100000", "<5000"처럼 비교식도 받는다.
-function matchNumber(value: number, raw: string) {
-  const text = raw.replace(/[\s,원]/g, "");
-  const match = /^(>=|<=|>|<|=)?(-?\d+(?:\.\d+)?)$/.exec(text);
-  if (!match) return false;
-
-  const target = Number(match[2]);
-  switch (match[1]) {
-    case ">=":
-      return value >= target;
-    case "<=":
-      return value <= target;
-    case ">":
-      return value > target;
-    case "<":
-      return value < target;
-    default:
-      return value === target;
-  }
-}
 
 // 전사 OA 현황 — 자산 한 대가 한 줄. 검색으로 좁혀 보고, 셀을 클릭하면 값이 복사된다.
 export default function AssetTable({ rows }: { rows: AssetRow[] }) {

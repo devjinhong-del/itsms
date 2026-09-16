@@ -4,6 +4,7 @@ import { BrowserMultiFormatReader, type IScannerControls } from "@zxing/browser"
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 import { useEffect, useRef, useState } from "react";
 import { logout } from "../login/actions";
+import { parseBarcodeText } from "@/lib/barcode";
 import { LogoutIcon } from "@/components/icons";
 import {
   lookupAsset,
@@ -34,22 +35,6 @@ const FIELD_PLACEHOLDER = "바코드 스캔 후 정보를 불러옵니다.";
 // 하나의 바코드로 스캔되는 경우가 있다. 사내에서 쓰던 스캐너 페이지의 파싱 규칙을 그대로 따른다:
 // - 구분자로 2개 이상 나뉘면 앞부분은 모델코드, 뒷부분은 자산번호.
 // - 모델코드가 "1"로 시작하면 그 앞자리 "1"은 제거한다(자산번호는 그대로 둔다).
-// - 구분자가 없으면 같은 값을 모델코드/자산번호 둘 다에 쓴다.
-function parseBarcodeText(raw: string): { modelCode: string; assetNo: string } {
-  const stripLeadingOne = (value: string) => (value.startsWith("1") ? value.slice(1) : value);
-  const parts = raw.trim().split(/[\s,;|]+/);
-
-  if (parts.length >= 2) {
-    return {
-      modelCode: stripLeadingOne(parts[0].toUpperCase()),
-      assetNo: parts[1].toUpperCase(),
-    };
-  }
-
-  const code = stripLeadingOne(raw.trim().toUpperCase());
-  return { modelCode: code, assetNo: code };
-}
-
 type Status = "idle" | "scanning" | "camera-error" | "found" | "submitting" | "submitted" | "list";
 
 export default function ScanClient() {

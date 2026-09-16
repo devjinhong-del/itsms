@@ -11,7 +11,8 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "sync:m365": "tsx scripts/sync-m365.ts",
     "storage:setup": "tsx scripts/create-storage-bucket.ts",
-    "bulk:create-accounts": "tsx scripts/bulk-create-m365-accounts.ts"
+    "bulk:create-accounts": "tsx scripts/bulk-create-m365-accounts.ts",
+    "test": "node --import tsx --test tests/*.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

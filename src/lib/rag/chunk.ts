@@ -47,11 +47,14 @@ export function splitIntoChunks(text: string, chunkSize = CHUNK_SIZE, overlap = 
   const flush = () => {
     const trimmed = current.trim();
     if (trimmed) chunks.push(trimmed);
-    current = trimmed.length > overlap ? `${trimmed.slice(-overlap)}\n` : "";
+    // 줄바꿈은 아래에서 이어 붙이므로 여기서는 겹칠 글자만 남긴다(한 글자라도 한도를 넘지 않게).
+    current = trimmed.length > overlap ? trimmed.slice(-overlap) : "";
   };
 
   for (const line of lines) {
-    for (const piece of forceSplit(line, chunkSize)) {
+    // 앞 조각의 끝(overlap)을 물고 시작하므로, 한 조각이 한도를 넘지 않으려면
+    // 이어붙일 토막은 (한도 - 겹침 - 줄바꿈 1칸)보다 짧아야 한다.
+    for (const piece of forceSplit(line, Math.max(1, chunkSize - overlap - 1))) {
       if (current.length + piece.length + 1 > chunkSize) flush();
       current += (current ? "\n" : "") + piece;
     }

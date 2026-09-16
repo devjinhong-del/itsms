@@ -62,3 +62,7 @@ export_OA/*.csv
 
 # 임시 배포 스크립트(커밋하지 않음)
 scripts/tmp-*.sh
+
+# 개발 도구 내부 상태(저장소에 남길 필요 없음)
+/.bkit/
+/supabase/.temp/
