@@ -31,8 +31,10 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isLoginPage = request.nextUrl.pathname.startsWith("/login");
+  // 로그인 없이 열리는 화면 — 소개 페이지에는 사내 데이터가 한 줄도 나오지 않는다.
+  const isPublicPage = request.nextUrl.pathname.startsWith("/about");
 
-  if (!user && !isLoginPage) {
+  if (!user && !isLoginPage && !isPublicPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
@@ -44,7 +46,7 @@ export async function updateSession(request: NextRequest) {
   const isMobile = isMobileUserAgent(request.headers.get("user-agent"));
   const isNavigation = request.method === "GET" || request.method === "HEAD";
   const path = request.nextUrl.pathname;
-  const isAuditPage = path === MOBILE_HOME || path.startsWith(`${MOBILE_HOME}/`);
+  const isAuditPage = path === MOBILE_HOME || path.startsWith(`${MOBILE_HOME}/`) || isPublicPage;
   const isInternal = path.startsWith("/_next") || path.startsWith("/api") || path.includes(".");
 
   if (user && isLoginPage) {
