@@ -3,6 +3,8 @@
 import { BrowserMultiFormatReader, type IScannerControls } from "@zxing/browser";
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 import { useEffect, useRef, useState } from "react";
+import { logout } from "../login/actions";
+import { LogoutIcon } from "@/components/icons";
 import {
   lookupAsset,
   lookupUserOrgByName,
@@ -561,6 +563,19 @@ export default function ScanClient() {
             </div>
           </div>
         </div>
+
+      {/* 모바일에서는 상단바(대시보드)로 갈 수 없으므로, 로그아웃은 이 화면 아래에 둔다 */}
+      <div className="mx-auto w-full max-w-md px-2 pb-6">
+        <form action={logout}>
+          <button
+            type="submit"
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white py-2.5 text-sm font-medium text-gray-500 transition hover:bg-gray-50 hover:text-gray-800"
+          >
+            <LogoutIcon />
+            로그아웃
+          </button>
+        </form>
+      </div>
 
       {/* 하단 회사 정보 — Jeisys.html의 output.css에 있는 .footer .info_list_area 규칙을 그대로 옮김
           (배경 #292929, 로고는 반투명 흰색 마스크, 폰트 크기·색상 전부 원본과 동일하게 맞춤).
