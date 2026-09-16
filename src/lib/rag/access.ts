@@ -4,10 +4,12 @@ import { getSupabaseAdmin } from "@/lib/db/supabaseAdmin";
 
 const NO_EXPIRY = "9999-12-31T23:59:59+00:00";
 
-// 챗봇을 쓸 수 있는 사람: HR팀 소속 + ITSMS 담당자(김진홍).
-// 문서를 올려 학습시킬 수 있는 사람: 김진홍 한 명.
+// 챗봇을 쓸 수 있는 사람: HR팀 소속 + 아래 목록에 있는 계정.
+// 문서를 올려 학습시킬 수 있는 사람: ITSMS 담당자(김진홍) 한 명.
 export const CHATBOT_OWNER_EMAIL = "jinhong@jeisys.com";
 const CHATBOT_TEAM = "HR팀";
+// 소속과 무관하게 챗봇을 열어주는 계정(담당자 + 별도 허용 계정)
+const CHATBOT_ALLOWED_EMAILS = [CHATBOT_OWNER_EMAIL, "innocurve@jeisys.com"];
 
 export interface ChatbotAccess {
   canChat: boolean; // 챗봇 아이콘이 보이는지
@@ -25,8 +27,9 @@ export async function getChatbotAccess(): Promise<ChatbotAccess> {
   const email = user?.email?.toLowerCase() ?? null;
   if (!email) return { canChat: false, canManage: false, email: null };
 
-  if (email === CHATBOT_OWNER_EMAIL) {
-    return { canChat: true, canManage: true, email };
+  if (CHATBOT_ALLOWED_EMAILS.includes(email)) {
+    // 학습 자료 관리는 담당자만 할 수 있다.
+    return { canChat: true, canManage: email === CHATBOT_OWNER_EMAIL, email };
   }
 
   // 소속은 M365 사용자 정보에서 확인한다(계정 = 이메일).
