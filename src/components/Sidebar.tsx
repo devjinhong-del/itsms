@@ -6,6 +6,7 @@ import { useState, type ReactNode } from "react";
 import { NAV_ITEMS } from "@/lib/nav";
 import { useNavigation } from "./NavigationProvider";
 import { PersonIcon, GroupIcon } from "./icons";
+import { canSeeAdminMenu, canSeeOrgAssets } from "@/lib/auth/role";
 
 // 관리자 프로필 — "개인 자산 현황"과 같은 사람 실루엣에 스패너(렌치) 배지를 달아 표현한다.
 function AdminIcon() {
@@ -125,7 +126,7 @@ export default function Sidebar({ role, canManageRag = false }: { role: string; 
       </div>
 
       <nav className="flex flex-col overflow-hidden whitespace-nowrap border-t border-white/10 text-sm">
-        {PERSONAL_LINKS.map((item) => {
+        {PERSONAL_LINKS.filter((item) => item.href !== "/org-assets" || canSeeOrgAssets(role)).map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href;
           return (
@@ -147,7 +148,7 @@ export default function Sidebar({ role, canManageRag = false }: { role: string; 
           );
         })}
 
-        {role === "admin" && (
+        {canSeeAdminMenu(role) && (
           <div>
             <button
               type="button"

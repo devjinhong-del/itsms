@@ -12,6 +12,7 @@ import { LogoutIcon } from "@/components/icons";
 import ChatWidget from "@/components/ChatWidget";
 import { getChatbotAccess } from "@/lib/rag/access";
 import { isMobileUserAgent } from "@/lib/device";
+import { ROLE_LABEL, normalizeRole } from "@/lib/auth/role";
 
 export default async function MainLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();
@@ -49,8 +50,10 @@ export default async function MainLayout({ children }: { children: ReactNode }) 
 
             <div className="flex items-center gap-3">
               <p className="flex items-center gap-1.5 text-[15px] text-gray-600">
-                {role === "admin" && (
-                  <span className="rounded bg-[#1d428a]/10 px-1.5 py-0.5 text-xs font-medium text-[#1d428a]">관리자</span>
+                {role !== "general" && (
+                  <span className="rounded bg-[#1d428a]/10 px-1.5 py-0.5 text-xs font-medium text-[#1d428a]">
+                    {ROLE_LABEL[normalizeRole(role)]}
+                  </span>
                 )}
                 {profile?.name ?? user.email}님
               </p>

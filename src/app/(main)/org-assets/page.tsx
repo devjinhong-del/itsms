@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { canSeeOrgAssets } from "@/lib/auth/role";
 import { getSupabaseAdmin } from "@/lib/db/supabaseAdmin";
 import { fetchAllRows } from "@/lib/db/fetchAll";
 import { SectionCard, StatTile, Table, EmptyRow, BarList, DonutChart } from "@/components/dashboard";
@@ -69,7 +70,11 @@ export default async function OrgAssetsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase.from("profiles").select("name").eq("id", user.id).single();
+  const { data: profile } = await supabase.from("profiles").select("name, role").eq("id", user.id).single();
+
+  // 조직 현황은 담당자(manager) 이상만 볼 수 있다. 메뉴를 숨기는 것만으로는 부족해서 여기서도 막는다.
+  if (!canSeeOrgAssets(profile?.role)) redirect("/");
+
   const { orgName, rows } = await loadOrgData(profile?.name ?? null, user.email);
 
   const byCategory = countBy(rows, (r) => r.prdct_name ?? "미분류");
