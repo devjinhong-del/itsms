@@ -1,0 +1,41 @@
+# push·PR마다 코드 검사(lint) → 단위 테스트 → 프로덕션 빌드를 순서대로 돌린다.
+# CLAUDE.md의 "작업 절차(검증 루프)"를 사람이 아니라 CI가 대신 확인하는 장치다.
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  verify:
+    name: lint · test · build
+    runs-on: ubuntu-latest
+
+    # 빌드가 환경변수 부재로 멈추지 않도록 형식만 맞춘 더미 값을 넣는다.
+    # (실제 키가 아니며, 이 단계에서는 외부로 요청을 보내지 않는다)
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: dummy-publishable-key
+      SUPABASE_URL: https://example.supabase.co
+      SUPABASE_SERVICE_ROLE_KEY: dummy-service-role-key
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: 코드 검사
+        run: npm run lint
+
+      - name: 단위 테스트
+        run: npm test
+
+      - name: 프로덕션 빌드
+        run: npm run build

@@ -1,5 +1,6 @@
 # ITSMS — 사내 IT 서비스 관리 시스템
 
+[![CI](https://github.com/devjinhong-del/itsms/actions/workflows/ci.yml/badge.svg)](https://github.com/devjinhong-del/itsms/actions/workflows/ci.yml)
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Postgres%20·%20Auth%20·%20pgvector-3FCF8E?logo=supabase&logoColor=white)
